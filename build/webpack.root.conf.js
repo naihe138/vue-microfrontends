@@ -2,9 +2,7 @@
 const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('./config')
-const merge = require('webpack-merge')
 const path = require('path')
-const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
@@ -14,17 +12,21 @@ const chalk = require('chalk')
 const address = require('address')
 
 const HOST = process.env.HOST
-const PORT = process.env.PORT && Number(process.env.PORT)
+const PORT = 4001
 const Local = address.ip()
 
 function resolve(dir) {
   return path.resolve(__dirname, '..', dir)
 }
 
-const devWebpackConfig = merge(baseWebpackConfig, {
+const devWebpackConfig = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: `./src/${process.env.app}/main.js`
+    root: `./src/root/index.js`
+  },
+  output: {
+    path: resolve('dist/root'),
+    filename: '[name].js'
   },
   mode: 'development',
   // 此选项控制是否以及如何生成source-map。cheap-module-eval-source-map is faster for development
@@ -32,7 +34,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: [
       {
-        test: /\.(js|vue)$/,
+        test: /\.(js)$/,
         loader: 'eslint-loader',
         enforce: 'pre',
         include: [resolve('src')],
@@ -41,16 +43,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           cache: true,
           formatter: require('eslint-friendly-formatter'),
           emitWarning: !config.dev.showEslintErrorsInOverlay
-        }
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        exclude: /node_modules/,
-        include: resolve('src'),
-        options: {
-          cacheDirectory: resolve('./.catch'),
-          cacheIdentifier: 'cache-loader:{version} {process.env.NODE_ENV}'
         }
       },
       {
@@ -109,7 +101,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     // 生产html文件
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'index.html',
+      template: resolve('./src/root/index.html'),
       inject: true
     }),
     new AddAssetHtmlPlugin({
@@ -129,31 +121,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       }
     ])
   ]
-})
+}
 
-module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = process.env.PORT || config.dev.port
-  portfinder.getPort((err, port) => {
-    if (err) {
-      reject(err)
-    } else {
-      // 发布一个新的端口
-      process.env.PORT = port
-      // 新的端口添加到devServer中
-      devWebpackConfig.devServer.port = port
-
-      // 添加 FriendlyErrorsPlugin
-      devWebpackConfig.plugins.push(
-        new FriendlyErrorsPlugin({
-          compilationSuccessInfo: {
-            messages: [`Your application is running here: `, ' ', chalk.blue(`http://${devWebpackConfig.devServer.host}:${port}${config.dev.assetsPublicPath}`), ' ', chalk.blue(`http://${Local}:${port}${config.dev.assetsPublicPath}`)],
-          },
-          onErrors: config.dev.notifyOnErrors
-          ? utils.createNotifierCallback()
-          : undefined
-        })
-      )
-      resolve(devWebpackConfig)
-    }
-  })
-})
+module.exports = devWebpackConfig

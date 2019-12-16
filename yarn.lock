@@ -7885,6 +7885,16 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
+single-spa-vue@^1.5.4:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/single-spa-vue/-/single-spa-vue-1.5.4.tgz#28290b8992a0e9868edf4d28e4ad997822039576"
+  integrity sha512-V88oZ941b+I1ZXoW77B7YyOvbuB3BvooxySFe05TkB6vUxnP3bcHo/klkyuUojmgi+1NaDeVhfQUoFU29CWGKw==
+
+single-spa@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/single-spa/-/single-spa-4.4.1.tgz#660a0e5f93f7e7d06fc40e2b126b81102f0741af"
+  integrity sha512-em6ZGRbLUilaiPrR+XKHT4/qjX07ijbO75PLtN6/d3DykDVioqK8bE1W+KTOJpRf0vDoq3lV+oP9TVz/fvP/YA==
+
 slash@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"

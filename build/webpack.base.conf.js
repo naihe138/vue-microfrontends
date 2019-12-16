@@ -7,13 +7,15 @@ function resolve(dir) {
   return path.resolve(__dirname, '..', dir)
 }
 
+console.log(11, process.env.app)
+
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
   },
   output: {
-    path: resolve('dist'),
+    path: resolve('dist/' + process.env.app),
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath
@@ -23,7 +25,7 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src')
+      '@': resolve('src/' + process.env.app)
     }
   },
   module: {
