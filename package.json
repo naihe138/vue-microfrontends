@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "husky": "^3.1.0",
     "single-spa": "^4.4.1",
     "single-spa-vue": "^1.5.4",
