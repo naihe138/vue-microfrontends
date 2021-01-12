@@ -1,3 +1,0 @@
-## vue-microfrontends
-
-vue-microfrontends
